@@ -25,14 +25,17 @@ import static org.bytedeco.ffmpeg.global.avformat.*;
 import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_AUDIO;
 
 public class SingleCueSplitter {
+
+    private final static String VERSION = "1.0";
+
     public static void main(String[] args) {
         EventQueue.invokeLater(()->{
-            System.out.println("org.wingate.scs.SingleCueSplitter is about to start...");
+            System.out.println("SingleCueSplitter is about to start...");
 
             try{
                 FlatDarkLaf.setup();
                 MainFrame mf = new MainFrame();
-                mf.setTitle("org.wingate.scs.SingleCueSplitter :: SCueS alpha");
+                mf.setTitle("SingleCueSplitter :: SCueS " + VERSION);
                 mf.setLocationRelativeTo(null);
                 mf.setVisible(true);
             }catch(HeadlessException _){
@@ -40,7 +43,7 @@ public class SingleCueSplitter {
                 System.exit(1);
             }
 
-            System.out.println("org.wingate.scs.SingleCueSplitter has started!");
+            System.out.println("SingleCueSplitter has started!");
         });
     }
 
@@ -264,7 +267,7 @@ public class SingleCueSplitter {
                         System.out.println(cd.getTracks().get(j).getStop());
                         pCD.setValue(j + 1);
                         pAll.setValue(k + j + 1);
-                        System.out.printf("%d/%d (Disk%d) done\n", j+1, totalTracks, i+1);
+                        System.out.printf("%d/%d (Disk%d) done\n", k+j+1, totalTracks, i+1);
                     } catch (IOException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -336,8 +339,8 @@ public class SingleCueSplitter {
             // Prepare output folder
             String input = new File(cd.getDiskLocation()).getParent();
             String qCD = "";
-            if(input.contains(File.separator + "org.wingate.scs.lib.CD")
-                    && input.length() - input.lastIndexOf(File.separator + "org.wingate.scs.lib.CD") <= 6){
+            if(input.contains(File.separator + "CD")
+                    && input.length() - input.lastIndexOf(File.separator + "CD") <= 6){
                 qCD = input.substring(input.lastIndexOf(File.separator) + 1);
             }
 
