@@ -345,7 +345,7 @@ public class SingleCueSplitter {
             }
 
             String output = tfOutputFolder.getText() + File.separator
-                    + cd.getTitle() + File.separator
+                    + replaceUnauthorized(cd.getTitle()) + File.separator
                     + (qCD.isEmpty() ? "" : qCD + File.separator);
 
             File fOut = new File(output);
@@ -394,8 +394,8 @@ public class SingleCueSplitter {
                     String.format("\"%s%03d - %s [%s]%s\"",
                             output,
                             track.getNumber(),
-                            track.getTitle(),
-                            track.getPerformer(),
+                            replaceUnauthorized(track.getTitle()),
+                            replaceUnauthorized(track.getPerformer()),
                             ((MusicFormat) Objects.requireNonNull(cbFormat.getSelectedItem())).getExtension())
             );
             pb.inheritIO().start().waitFor();
@@ -481,6 +481,14 @@ public class SingleCueSplitter {
             long SS = TimeUnit.MILLISECONDS.toSeconds(ms) % 60;
             long MS = TimeUnit.MILLISECONDS.toMillis(ms) % 1000;
             return String.format("%02d:%02d:%02d.%03d", HH, MM, SS, MS);
+        }
+
+        private String replaceUnauthorized(String s){
+            String[] t = new String[]{"<", ">", ":", "\"", "/", "\\", "|", "?", "*"};
+            for(String x : t){
+                s = s.replace(x, " ");
+            }
+            return s;
         }
 
         @Override
